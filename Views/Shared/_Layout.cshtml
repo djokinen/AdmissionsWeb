@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>@ViewBag.Title - My ASP.NET Application</title>
+	@*<script src="//code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>*@
+	@Styles.Render("~/Content/css")
+	@Scripts.Render("~/bundles/modernizr")
+
+
+	@*<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css" />*@
+	@*<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>*@
+
+	<meta name="description" content="The description of my page" />
+</head>
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				@Html.ActionLink("Admissions", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li>@Html.ActionLink("Home", "Index", "Home")</li>
+					<li>@Html.ActionLink("Action Codes", "Index", "ActionCodes")</li>
+					<li>@Html.ActionLink("Reason Codes", "Index", "ReasonCodes")</li>
+
+					<li>@Html.ActionLink("GlossaryMessageTypeCategories", "Index", "GlossaryMessageTypeCategories")</li>
+					<li>@Html.ActionLink("GlossaryMessageTypes", "Index", "GlossaryMessageTypes")</li>
+					<li>@Html.ActionLink("GlossaryMessages", "Index", "GlossaryMessages")</li>
+
+					<li class="hidden">@Html.ActionLink("About", "About", "Home")</li>
+					<li class="hidden">@Html.ActionLink("Contact", "Contact", "Home")</li>
+				</ul>
+				@Html.Partial("_LoginPartial")
+			</div>
+		</div>
+	</div>
+	<div class="container body-content">
+		@RenderBody()
+		<hr />
+		<footer>
+			<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+		</footer>
+	</div>
+
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/bootstrap")
+	@RenderSection("scripts", required: false)
+
+	<script>
+		$(function () {
+			/* alert("begin");
+			$("table").dataTables();
+			*/
+		});
+	</script>
+</body>
+</html>

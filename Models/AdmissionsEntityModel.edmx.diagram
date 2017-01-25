@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="40b63fcecef949dfb3c1563f47366b0d" Name="Diagram1">
+        <EntityTypeShape EntityType="AO_20161201Model.ActionCode" Width="1.5" PointX="7.75" PointY="2.625" />
+        <EntityTypeShape EntityType="AO_20161201Model.AdjudicationCode" Width="1.5" PointX="3" PointY="11.875" />
+        <EntityTypeShape EntityType="AO_20161201Model.AdjudicationCodeCategory" Width="1.5" PointX="0.75" PointY="11.625" />
+        <EntityTypeShape EntityType="AO_20161201Model.Degree" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AO_20161201Model.Employee" Width="1.5" PointX="5.25" PointY="3.25" />
+        <EntityTypeShape EntityType="AO_20161201Model.Faculty" Width="1.5" PointX="0.75" PointY="3.875" />
+        <EntityTypeShape EntityType="AO_20161201Model.GlossaryMessage" Width="1.5" PointX="10.25" PointY="7.625" />
+        <EntityTypeShape EntityType="AO_20161201Model.GlossaryMessageType" Width="1.5" PointX="5.75" PointY="7.875" />
+        <EntityTypeShape EntityType="AO_20161201Model.GlossaryMessageTypeCategory" Width="1.5" PointX="8" PointY="7.625" />
+        <EntityTypeShape EntityType="AO_20161201Model.Program" Width="1.5" PointX="3" PointY="2.75" />
+        <EntityTypeShape EntityType="AO_20161201Model.ReasonCode" Width="1.5" PointX="10" PointY="2.625" />
+        <EntityTypeShape EntityType="AO_20161201Model.sysdiagram" Width="1.5" PointX="0.75" PointY="8.375" />
+        <AssociationConnector Association="AO_20161201Model.FK_AdjudicationCode_AdjudicationCodeCategory" />
+        <AssociationConnector Association="AO_20161201Model.FK_Program_Degree" />
+        <AssociationConnector Association="AO_20161201Model.FK_Program_Faculty" />
+        <AssociationConnector Association="AO_20161201Model.FK_GlossaryMessage_GlossaryMessageTypeCategory" />
+        <AssociationConnector Association="AO_20161201Model.FK_GlossaryMessageTypeCategory_GlossaryMessageType" />
+        <AssociationConnector Association="AO_20161201Model.ActionReasonCode" />
+        <AssociationConnector Association="AO_20161201Model.CurriculumManagementProgram" />
+        <AssociationConnector Association="AO_20161201Model.ProgramAssignment" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

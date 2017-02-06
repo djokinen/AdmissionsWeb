@@ -17,10 +17,12 @@ namespace AdmissionsWeb.Models
         public System.Guid Id { get; set; }
         public System.Guid GlossaryMessageTypeCategoryId { get; set; }
         public string Code { get; set; }
+        public string Note { get; set; }
         public string Description { get; set; }
         public string Text { get; set; }
+        public bool IsBulletPoint { get; set; }
         public bool Enabled { get; set; }
-        public System.DateTime CreatedDate { get; set; }
+        public System.DateTime Created { get; set; }
         public System.DateTime Modified { get; set; }
     
         public virtual GlossaryMessageTypeCategory GlossaryMessageTypeCategory { get; set; }

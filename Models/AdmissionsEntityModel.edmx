@@ -86,11 +86,13 @@
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="GlossaryMessageTypeCategoryId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Code" Type="nvarchar" MaxLength="8" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" />
+          <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Note" Type="varchar" MaxLength="255" />
+          <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Text" Type="varchar(max)" />
+          <Property Name="IsBulletPoint" Type="bit" Nullable="false" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="Modified" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="GlossaryMessageType">
@@ -101,7 +103,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="Modified" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="GlossaryMessageTypeCategory">
@@ -113,7 +115,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="Modified" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Program">
@@ -426,9 +428,6 @@
           <EntitySet Name="Degrees" EntityType="AO_20161201Model.Degree" />
           <EntitySet Name="Employees" EntityType="AO_20161201Model.Employee" />
           <EntitySet Name="Faculties" EntityType="AO_20161201Model.Faculty" />
-          <EntitySet Name="GlossaryMessages" EntityType="AO_20161201Model.GlossaryMessage" />
-          <EntitySet Name="GlossaryMessageTypes" EntityType="AO_20161201Model.GlossaryMessageType" />
-          <EntitySet Name="GlossaryMessageTypeCategories" EntityType="AO_20161201Model.GlossaryMessageTypeCategory" />
           <EntitySet Name="Programs" EntityType="AO_20161201Model.Program" />
           <EntitySet Name="ReasonCodes" EntityType="AO_20161201Model.ReasonCode" />
           <EntitySet Name="sysdiagrams" EntityType="AO_20161201Model.sysdiagram" />
@@ -444,14 +443,6 @@
             <End Role="Faculty" EntitySet="Faculties" />
             <End Role="Program" EntitySet="Programs" />
           </AssociationSet>
-          <AssociationSet Name="FK_GlossaryMessage_GlossaryMessageTypeCategory" Association="AO_20161201Model.FK_GlossaryMessage_GlossaryMessageTypeCategory">
-            <End Role="GlossaryMessageTypeCategory" EntitySet="GlossaryMessageTypeCategories" />
-            <End Role="GlossaryMessage" EntitySet="GlossaryMessages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GlossaryMessageTypeCategory_GlossaryMessageType" Association="AO_20161201Model.FK_GlossaryMessageTypeCategory_GlossaryMessageType">
-            <End Role="GlossaryMessageType" EntitySet="GlossaryMessageTypes" />
-            <End Role="GlossaryMessageTypeCategory" EntitySet="GlossaryMessageTypeCategories" />
-          </AssociationSet>
           <AssociationSet Name="ActionReasonCode" Association="AO_20161201Model.ActionReasonCode">
             <End Role="ActionCode" EntitySet="ActionCodes" />
             <End Role="ReasonCode" EntitySet="ReasonCodes" />
@@ -463,6 +454,17 @@
           <AssociationSet Name="ProgramAssignment" Association="AO_20161201Model.ProgramAssignment">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="Program" EntitySet="Programs" />
+          </AssociationSet>
+          <EntitySet Name="GlossaryMessages" EntityType="AO_20161201Model.GlossaryMessage" />
+          <EntitySet Name="GlossaryMessageTypes" EntityType="AO_20161201Model.GlossaryMessageType" />
+          <EntitySet Name="GlossaryMessageTypeCategories" EntityType="AO_20161201Model.GlossaryMessageTypeCategory" />
+          <AssociationSet Name="FK_GlossaryMessage_GlossaryMessageTypeCategory" Association="AO_20161201Model.FK_GlossaryMessage_GlossaryMessageTypeCategory">
+            <End Role="GlossaryMessageTypeCategory" EntitySet="GlossaryMessageTypeCategories" />
+            <End Role="GlossaryMessage" EntitySet="GlossaryMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GlossaryMessageTypeCategory_GlossaryMessageType" Association="AO_20161201Model.FK_GlossaryMessageTypeCategory_GlossaryMessageType">
+            <End Role="GlossaryMessageType" EntitySet="GlossaryMessageTypes" />
+            <End Role="GlossaryMessageTypeCategory" EntitySet="GlossaryMessageTypeCategories" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -542,46 +544,6 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Programs" Relationship="AO_20161201Model.FK_Program_Faculty" FromRole="Faculty" ToRole="Program" />
         </EntityType>
-        <EntityType Name="GlossaryMessage">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="GlossaryMessageTypeCategoryId" Type="Guid" Nullable="false" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="GlossaryMessageTypeCategory" Relationship="AO_20161201Model.FK_GlossaryMessage_GlossaryMessageTypeCategory" FromRole="GlossaryMessage" ToRole="GlossaryMessageTypeCategory" />
-        </EntityType>
-        <EntityType Name="GlossaryMessageType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="GlossaryMessageTypeCategories" Relationship="AO_20161201Model.FK_GlossaryMessageTypeCategory_GlossaryMessageType" FromRole="GlossaryMessageType" ToRole="GlossaryMessageTypeCategory" />
-        </EntityType>
-        <EntityType Name="GlossaryMessageTypeCategory">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="GlossaryMessageTypeId" Type="Guid" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="GlossaryMessages" Relationship="AO_20161201Model.FK_GlossaryMessage_GlossaryMessageTypeCategory" FromRole="GlossaryMessageTypeCategory" ToRole="GlossaryMessage" />
-          <NavigationProperty Name="GlossaryMessageType" Relationship="AO_20161201Model.FK_GlossaryMessageTypeCategory_GlossaryMessageType" FromRole="GlossaryMessageTypeCategory" ToRole="GlossaryMessageType" />
-        </EntityType>
         <EntityType Name="Program">
           <Key>
             <PropertyRef Name="Id" />
@@ -660,6 +622,60 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ActionReasonCode">
+          <End Type="AO_20161201Model.ActionCode" Role="ActionCode" Multiplicity="*" />
+          <End Type="AO_20161201Model.ReasonCode" Role="ReasonCode" Multiplicity="*" />
+        </Association>
+        <Association Name="CurriculumManagementProgram">
+          <End Type="AO_20161201Model.Program" Role="Program" Multiplicity="*" />
+          <End Type="AO_20161201Model.Employee" Role="Employee" Multiplicity="*" />
+        </Association>
+        <Association Name="ProgramAssignment">
+          <End Type="AO_20161201Model.Employee" Role="Employee" Multiplicity="*" />
+          <End Type="AO_20161201Model.Program" Role="Program" Multiplicity="*" />
+        </Association>
+        <EntityType Name="GlossaryMessage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="GlossaryMessageTypeCategoryId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsBulletPoint" Type="Boolean" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="GlossaryMessageTypeCategory" Relationship="AO_20161201Model.FK_GlossaryMessage_GlossaryMessageTypeCategory" FromRole="GlossaryMessage" ToRole="GlossaryMessageTypeCategory" />
+        </EntityType>
+        <EntityType Name="GlossaryMessageType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="GlossaryMessageTypeCategories" Relationship="AO_20161201Model.FK_GlossaryMessageTypeCategory_GlossaryMessageType" FromRole="GlossaryMessageType" ToRole="GlossaryMessageTypeCategory" />
+        </EntityType>
+        <EntityType Name="GlossaryMessageTypeCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="GlossaryMessageTypeId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="GlossaryMessages" Relationship="AO_20161201Model.FK_GlossaryMessage_GlossaryMessageTypeCategory" FromRole="GlossaryMessageTypeCategory" ToRole="GlossaryMessage" />
+          <NavigationProperty Name="GlossaryMessageType" Relationship="AO_20161201Model.FK_GlossaryMessageTypeCategory_GlossaryMessageType" FromRole="GlossaryMessageTypeCategory" ToRole="GlossaryMessageType" />
+        </EntityType>
         <Association Name="FK_GlossaryMessage_GlossaryMessageTypeCategory">
           <End Type="AO_20161201Model.GlossaryMessageTypeCategory" Role="GlossaryMessageTypeCategory" Multiplicity="1" />
           <End Type="AO_20161201Model.GlossaryMessage" Role="GlossaryMessage" Multiplicity="*" />
@@ -683,18 +699,6 @@
               <PropertyRef Name="GlossaryMessageTypeId" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <Association Name="ActionReasonCode">
-          <End Type="AO_20161201Model.ActionCode" Role="ActionCode" Multiplicity="*" />
-          <End Type="AO_20161201Model.ReasonCode" Role="ReasonCode" Multiplicity="*" />
-        </Association>
-        <Association Name="CurriculumManagementProgram">
-          <End Type="AO_20161201Model.Program" Role="Program" Multiplicity="*" />
-          <End Type="AO_20161201Model.Employee" Role="Employee" Multiplicity="*" />
-        </Association>
-        <Association Name="ProgramAssignment">
-          <End Type="AO_20161201Model.Employee" Role="Employee" Multiplicity="*" />
-          <End Type="AO_20161201Model.Program" Role="Program" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -791,45 +795,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GlossaryMessages">
-            <EntityTypeMapping TypeName="AO_20161201Model.GlossaryMessage">
-              <MappingFragment StoreEntitySet="GlossaryMessage">
-                <ScalarProperty Name="Modified" ColumnName="Modified" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-                <ScalarProperty Name="Text" ColumnName="Text" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="GlossaryMessageTypeCategoryId" ColumnName="GlossaryMessageTypeCategoryId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GlossaryMessageTypes">
-            <EntityTypeMapping TypeName="AO_20161201Model.GlossaryMessageType">
-              <MappingFragment StoreEntitySet="GlossaryMessageType">
-                <ScalarProperty Name="Modified" ColumnName="Modified" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GlossaryMessageTypeCategories">
-            <EntityTypeMapping TypeName="AO_20161201Model.GlossaryMessageTypeCategory">
-              <MappingFragment StoreEntitySet="GlossaryMessageTypeCategory">
-                <ScalarProperty Name="Modified" ColumnName="Modified" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="GlossaryMessageTypeId" ColumnName="GlossaryMessageTypeId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Programs">
             <EntityTypeMapping TypeName="AO_20161201Model.Program">
               <MappingFragment StoreEntitySet="Program">
@@ -894,6 +859,47 @@
               <ScalarProperty Name="Id" ColumnName="EmployeeId_AO" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="GlossaryMessages">
+            <EntityTypeMapping TypeName="AO_20161201Model.GlossaryMessage">
+              <MappingFragment StoreEntitySet="GlossaryMessage">
+                <ScalarProperty Name="Modified" ColumnName="Modified" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="IsBulletPoint" ColumnName="IsBulletPoint" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="GlossaryMessageTypeCategoryId" ColumnName="GlossaryMessageTypeCategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GlossaryMessageTypes">
+            <EntityTypeMapping TypeName="AO_20161201Model.GlossaryMessageType">
+              <MappingFragment StoreEntitySet="GlossaryMessageType">
+                <ScalarProperty Name="Modified" ColumnName="Modified" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GlossaryMessageTypeCategories">
+            <EntityTypeMapping TypeName="AO_20161201Model.GlossaryMessageTypeCategory">
+              <MappingFragment StoreEntitySet="GlossaryMessageTypeCategory">
+                <ScalarProperty Name="Modified" ColumnName="Modified" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GlossaryMessageTypeId" ColumnName="GlossaryMessageTypeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -24,7 +24,7 @@ namespace AdmissionsWeb.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public bool Enabled { get; set; }
-        public System.DateTime CreatedDate { get; set; }
+        public System.DateTime Created { get; set; }
         public System.DateTime Modified { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

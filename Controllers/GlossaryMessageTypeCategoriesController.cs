@@ -48,7 +48,7 @@ namespace AdmissionsWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,GlossaryMessageTypeId,Name,Description,Enabled,CreatedDate,Modified")] GlossaryMessageTypeCategory glossaryMessageTypeCategory)
+        public ActionResult Create([Bind(Include = "Id,GlossaryMessageTypeId,Name,Description,Enabled,Created,Modified")] GlossaryMessageTypeCategory glossaryMessageTypeCategory)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace AdmissionsWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,GlossaryMessageTypeId,Name,Description,Enabled,CreatedDate,Modified")] GlossaryMessageTypeCategory glossaryMessageTypeCategory)
+        public ActionResult Edit([Bind(Include = "Id,GlossaryMessageTypeId,Name,Description,Enabled,Created,Modified")] GlossaryMessageTypeCategory glossaryMessageTypeCategory)
         {
             if (ModelState.IsValid)
             {

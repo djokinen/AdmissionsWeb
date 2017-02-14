@@ -21,6 +21,9 @@
 			@Html.DisplayNameFor(model => model.Text)
 		</th>
 		<th>
+			@Html.DisplayNameFor(model => model.IsBulletPoint)
+		</th>
+		<th>
 			@Html.DisplayNameFor(model => model.Enabled)
 		</th>
 		<th>
@@ -46,6 +49,9 @@
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.Text)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.IsBulletPoint)
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.Enabled)

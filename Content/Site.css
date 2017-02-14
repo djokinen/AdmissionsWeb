@@ -1,11 +1,12 @@
-﻿.jokinen {
+﻿/*.jokinen {
 	color: #f80;
 	background-color: #ccc;
 }
+*/
 
 	.jokinen:hover {
-		color: #ccc;
-		background-color: #f80;
+		color: #111;
+		background-color: #eee;
 	}
 
 body {

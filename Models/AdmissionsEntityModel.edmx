@@ -5,81 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="AO_20161201Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="ActionCode">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="8" Nullable="false" />
-          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Enabled" Type="bit" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-          <Property Name="Modified" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ActionReasonCode">
-          <Key>
-            <PropertyRef Name="ActionCodeId" />
-            <PropertyRef Name="ReasonCodeId" />
-          </Key>
-          <Property Name="ActionCodeId" Type="nvarchar" MaxLength="8" Nullable="false" />
-          <Property Name="ReasonCodeId" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AdjudicationCode">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="smallint" Nullable="false" />
-          <Property Name="AdjudicationCodeCategoryId" Type="uniqueidentifier" />
-          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AdjudicationCodeCategory">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="255" />
-          <Property Name="Created" Type="datetime" Nullable="false" />
-          <Property Name="Modified" Type="datetime" Nullable="false" />
-          <Property Name="Enabled" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="CurriculumManagementProgram">
-          <Key>
-            <PropertyRef Name="EmployeeId_AO" />
-            <PropertyRef Name="ProgramId" />
-          </Key>
-          <Property Name="EmployeeId_AO" Type="int" Nullable="false" />
-          <Property Name="ProgramId" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Degree">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="NameLongForm" Type="nvarchar" MaxLength="255" />
-          <Property Name="Description" Type="nvarchar(max)" />
-        </EntityType>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="EmailAddress" Type="nvarchar" MaxLength="255" />
-          <Property Name="Role" Type="nvarchar" MaxLength="255" />
-          <Property Name="Dept" Type="nvarchar" MaxLength="255" />
-          <Property Name="Location" Type="nvarchar" MaxLength="255" />
-          <Property Name="Extension" Type="float" />
-        </EntityType>
-        <EntityType Name="Faculty">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Description" Type="nvarchar(max)" />
-        </EntityType>
         <EntityType Name="GlossaryMessage">
           <Key>
             <PropertyRef Name="Id" />
@@ -91,10 +16,21 @@
           <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Text" Type="varchar(max)" />
           <Property Name="IsBulletPoint" Type="bit" Nullable="false" />
+          <Property Name="ReplacedBy_GlossaryMessageId" Type="uniqueidentifier" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="Modified" Type="datetime" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'AdmissionsDB.dbo.GlossaryMessage_History' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="GlossaryMessage_History">
+          <Property Name="COL1" Type="varchar" MaxLength="50" />
+          <Property Name="COL2" Type="varchar" MaxLength="50" />
+          <Property Name="COL3" Type="varchar" MaxLength="50" />
+          <Property Name="COL4" Type="varchar" MaxLength="50" />
+          <Property Name="COL5" Type="varchar" MaxLength="50" />
+          <Property Name="COL6" Type="varchar" MaxLength="50" />
+        </EntityType>-->
         <EntityType Name="GlossaryMessageType">
           <Key>
             <PropertyRef Name="Id" />
@@ -118,108 +54,35 @@
           <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="Modified" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="Program">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AdmissionsDB.dbo.GlossaryMessageView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="GlossaryMessageView">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="CatName" />
+            <PropertyRef Name="Code" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="IsBulletPoint" />
+            <PropertyRef Name="Enabled" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="FullTime" Type="nvarchar" MaxLength="255" />
-          <Property Name="PartTime" Type="nvarchar" MaxLength="255" />
-          <Property Name="DirectEntry" Type="nvarchar" MaxLength="255" />
-          <Property Name="AdvancedStanding" Type="nvarchar" MaxLength="255" />
-          <Property Name="FacultyId" Type="int" />
-          <Property Name="DegreeId" Type="int" />
-          <Property Name="RyersonCode" Type="nvarchar" MaxLength="255" />
-          <Property Name="RyersonPlan" Type="nvarchar" MaxLength="255" />
-          <Property Name="OuacCode" Type="nvarchar" MaxLength="255" />
-          <Property Name="Notes" Type="nvarchar" MaxLength="255" />
-        </EntityType>
-        <EntityType Name="ProgramAssignment">
-          <Key>
-            <PropertyRef Name="EmployeeId_AO" />
-            <PropertyRef Name="ProgramId" />
-          </Key>
-          <Property Name="EmployeeId_AO" Type="int" Nullable="false" />
-          <Property Name="ProgramId" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ReasonCode">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CatName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CatDesc" Type="nvarchar(max)" />
+          <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Text" Type="varchar(max)" />
+          <Property Name="IsBulletPoint" Type="bit" Nullable="false" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-          <Property Name="Modified" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
-        <Association Name="FK_ActionReasonCode_ActionCode">
-          <End Role="ActionCode" Type="Self.ActionCode" Multiplicity="1" />
-          <End Role="ActionReasonCode" Type="Self.ActionReasonCode" Multiplicity="*" />
+        <Association Name="FK_GlossaryMessage_GlossaryMessage">
+          <End Role="GlossaryMessage" Type="Self.GlossaryMessage" Multiplicity="0..1" />
+          <End Role="GlossaryMessage1" Type="Self.GlossaryMessage" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ActionCode">
+            <Principal Role="GlossaryMessage">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ActionReasonCode">
-              <PropertyRef Name="ActionCodeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ActionReasonCode_ReasonCode">
-          <End Role="ReasonCode" Type="Self.ReasonCode" Multiplicity="1" />
-          <End Role="ActionReasonCode" Type="Self.ActionReasonCode" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ReasonCode">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ActionReasonCode">
-              <PropertyRef Name="ReasonCodeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AdjudicationCode_AdjudicationCodeCategory">
-          <End Role="AdjudicationCodeCategory" Type="Self.AdjudicationCodeCategory" Multiplicity="0..1" />
-          <End Role="AdjudicationCode" Type="Self.AdjudicationCode" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AdjudicationCodeCategory">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AdjudicationCode">
-              <PropertyRef Name="AdjudicationCodeCategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CurriculumManagementProgram_CurriculumManagementProgram">
-          <End Role="Program" Type="Self.Program" Multiplicity="1" />
-          <End Role="CurriculumManagementProgram" Type="Self.CurriculumManagementProgram" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Program">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CurriculumManagementProgram">
-              <PropertyRef Name="ProgramId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CurriculumManagementProgram_Employee">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-          <End Role="CurriculumManagementProgram" Type="Self.CurriculumManagementProgram" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CurriculumManagementProgram">
-              <PropertyRef Name="EmployeeId_AO" />
+            <Dependent Role="GlossaryMessage1">
+              <PropertyRef Name="ReplacedBy_GlossaryMessageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -244,54 +107,6 @@
             </Principal>
             <Dependent Role="GlossaryMessageTypeCategory">
               <PropertyRef Name="GlossaryMessageTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Program_Degree">
-          <End Role="Degree" Type="Self.Degree" Multiplicity="0..1" />
-          <End Role="Program" Type="Self.Program" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Degree">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Program">
-              <PropertyRef Name="DegreeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Program_Faculty">
-          <End Role="Faculty" Type="Self.Faculty" Multiplicity="0..1" />
-          <End Role="Program" Type="Self.Program" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Faculty">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Program">
-              <PropertyRef Name="FacultyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProgramAssignment_Employee">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-          <End Role="ProgramAssignment" Type="Self.ProgramAssignment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProgramAssignment">
-              <PropertyRef Name="EmployeeId_AO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProgramAssignment_Program">
-          <End Role="Program" Type="Self.Program" Multiplicity="1" />
-          <End Role="ProgramAssignment" Type="Self.ProgramAssignment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Program">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProgramAssignment">
-              <PropertyRef Name="ProgramId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -327,40 +142,24 @@
         </Function>
         <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="AO_20161201ModelStoreContainer">
-          <EntitySet Name="ActionCode" EntityType="Self.ActionCode" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ActionReasonCode" EntityType="Self.ActionReasonCode" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AdjudicationCode" EntityType="Self.AdjudicationCode" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AdjudicationCodeCategory" EntityType="Self.AdjudicationCodeCategory" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CurriculumManagementProgram" EntityType="Self.CurriculumManagementProgram" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Degree" EntityType="Self.Degree" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Faculty" EntityType="Self.Faculty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GlossaryMessage" EntityType="Self.GlossaryMessage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GlossaryMessageType" EntityType="Self.GlossaryMessageType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GlossaryMessageTypeCategory" EntityType="Self.GlossaryMessageTypeCategory" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Program" EntityType="Self.Program" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ProgramAssignment" EntityType="Self.ProgramAssignment" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ReasonCode" EntityType="Self.ReasonCode" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_ActionReasonCode_ActionCode" Association="Self.FK_ActionReasonCode_ActionCode">
-            <End Role="ActionCode" EntitySet="ActionCode" />
-            <End Role="ActionReasonCode" EntitySet="ActionReasonCode" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ActionReasonCode_ReasonCode" Association="Self.FK_ActionReasonCode_ReasonCode">
-            <End Role="ReasonCode" EntitySet="ReasonCode" />
-            <End Role="ActionReasonCode" EntitySet="ActionReasonCode" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AdjudicationCode_AdjudicationCodeCategory" Association="Self.FK_AdjudicationCode_AdjudicationCodeCategory">
-            <End Role="AdjudicationCodeCategory" EntitySet="AdjudicationCodeCategory" />
-            <End Role="AdjudicationCode" EntitySet="AdjudicationCode" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CurriculumManagementProgram_CurriculumManagementProgram" Association="Self.FK_CurriculumManagementProgram_CurriculumManagementProgram">
-            <End Role="Program" EntitySet="Program" />
-            <End Role="CurriculumManagementProgram" EntitySet="CurriculumManagementProgram" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CurriculumManagementProgram_Employee" Association="Self.FK_CurriculumManagementProgram_Employee">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="CurriculumManagementProgram" EntitySet="CurriculumManagementProgram" />
+          <EntitySet Name="GlossaryMessageView" EntityType="Self.GlossaryMessageView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [GlossaryMessageView].[Name] AS [Name], 
+    [GlossaryMessageView].[CatName] AS [CatName], 
+    [GlossaryMessageView].[CatDesc] AS [CatDesc], 
+    [GlossaryMessageView].[Code] AS [Code], 
+    [GlossaryMessageView].[Description] AS [Description], 
+    [GlossaryMessageView].[Text] AS [Text], 
+    [GlossaryMessageView].[IsBulletPoint] AS [IsBulletPoint], 
+    [GlossaryMessageView].[Enabled] AS [Enabled]
+    FROM [dbo].[GlossaryMessageView] AS [GlossaryMessageView]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_GlossaryMessage_GlossaryMessage" Association="Self.FK_GlossaryMessage_GlossaryMessage">
+            <End Role="GlossaryMessage" EntitySet="GlossaryMessage" />
+            <End Role="GlossaryMessage1" EntitySet="GlossaryMessage" />
           </AssociationSet>
           <AssociationSet Name="FK_GlossaryMessage_GlossaryMessageTypeCategory" Association="Self.FK_GlossaryMessage_GlossaryMessageTypeCategory">
             <End Role="GlossaryMessageTypeCategory" EntitySet="GlossaryMessageTypeCategory" />
@@ -369,22 +168,6 @@
           <AssociationSet Name="FK_GlossaryMessageTypeCategory_GlossaryMessageType" Association="Self.FK_GlossaryMessageTypeCategory_GlossaryMessageType">
             <End Role="GlossaryMessageType" EntitySet="GlossaryMessageType" />
             <End Role="GlossaryMessageTypeCategory" EntitySet="GlossaryMessageTypeCategory" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Program_Degree" Association="Self.FK_Program_Degree">
-            <End Role="Degree" EntitySet="Degree" />
-            <End Role="Program" EntitySet="Program" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Program_Faculty" Association="Self.FK_Program_Faculty">
-            <End Role="Faculty" EntitySet="Faculty" />
-            <End Role="Program" EntitySet="Program" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProgramAssignment_Employee" Association="Self.FK_ProgramAssignment_Employee">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="ProgramAssignment" EntitySet="ProgramAssignment" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProgramAssignment_Program" Association="Self.FK_ProgramAssignment_Program">
-            <End Role="Program" EntitySet="Program" />
-            <End Role="ProgramAssignment" EntitySet="ProgramAssignment" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -422,39 +205,6 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <EntitySet Name="ActionCodes" EntityType="AO_20161201Model.ActionCode" />
-          <EntitySet Name="AdjudicationCodes" EntityType="AO_20161201Model.AdjudicationCode" />
-          <EntitySet Name="AdjudicationCodeCategories" EntityType="AO_20161201Model.AdjudicationCodeCategory" />
-          <EntitySet Name="Degrees" EntityType="AO_20161201Model.Degree" />
-          <EntitySet Name="Employees" EntityType="AO_20161201Model.Employee" />
-          <EntitySet Name="Faculties" EntityType="AO_20161201Model.Faculty" />
-          <EntitySet Name="Programs" EntityType="AO_20161201Model.Program" />
-          <EntitySet Name="ReasonCodes" EntityType="AO_20161201Model.ReasonCode" />
-          <EntitySet Name="sysdiagrams" EntityType="AO_20161201Model.sysdiagram" />
-          <AssociationSet Name="FK_AdjudicationCode_AdjudicationCodeCategory" Association="AO_20161201Model.FK_AdjudicationCode_AdjudicationCodeCategory">
-            <End Role="AdjudicationCodeCategory" EntitySet="AdjudicationCodeCategories" />
-            <End Role="AdjudicationCode" EntitySet="AdjudicationCodes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Program_Degree" Association="AO_20161201Model.FK_Program_Degree">
-            <End Role="Degree" EntitySet="Degrees" />
-            <End Role="Program" EntitySet="Programs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Program_Faculty" Association="AO_20161201Model.FK_Program_Faculty">
-            <End Role="Faculty" EntitySet="Faculties" />
-            <End Role="Program" EntitySet="Programs" />
-          </AssociationSet>
-          <AssociationSet Name="ActionReasonCode" Association="AO_20161201Model.ActionReasonCode">
-            <End Role="ActionCode" EntitySet="ActionCodes" />
-            <End Role="ReasonCode" EntitySet="ReasonCodes" />
-          </AssociationSet>
-          <AssociationSet Name="CurriculumManagementProgram" Association="AO_20161201Model.CurriculumManagementProgram">
-            <End Role="Program" EntitySet="Programs" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="ProgramAssignment" Association="AO_20161201Model.ProgramAssignment">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="Program" EntitySet="Programs" />
-          </AssociationSet>
           <EntitySet Name="GlossaryMessages" EntityType="AO_20161201Model.GlossaryMessage" />
           <EntitySet Name="GlossaryMessageTypes" EntityType="AO_20161201Model.GlossaryMessageType" />
           <EntitySet Name="GlossaryMessageTypeCategories" EntityType="AO_20161201Model.GlossaryMessageTypeCategory" />
@@ -465,6 +215,11 @@
           <AssociationSet Name="FK_GlossaryMessageTypeCategory_GlossaryMessageType" Association="AO_20161201Model.FK_GlossaryMessageTypeCategory_GlossaryMessageType">
             <End Role="GlossaryMessageType" EntitySet="GlossaryMessageTypes" />
             <End Role="GlossaryMessageTypeCategory" EntitySet="GlossaryMessageTypeCategories" />
+          </AssociationSet>
+          <EntitySet Name="GlossaryMessageViews" EntityType="AO_20161201Model.GlossaryMessageView" />
+          <AssociationSet Name="FK_GlossaryMessage_GlossaryMessage" Association="AO_20161201Model.FK_GlossaryMessage_GlossaryMessage">
+            <End Role="GlossaryMessage" EntitySet="GlossaryMessages" />
+            <End Role="GlossaryMessage1" EntitySet="GlossaryMessages" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -478,162 +233,6 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
-        <EntityType Name="ActionCode">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="ReasonCodes" Relationship="AO_20161201Model.ActionReasonCode" FromRole="ActionCode" ToRole="ReasonCode" />
-        </EntityType>
-        <EntityType Name="AdjudicationCode">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int16" Nullable="false" />
-          <Property Name="AdjudicationCodeCategoryId" Type="Guid" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AdjudicationCodeCategory" Relationship="AO_20161201Model.FK_AdjudicationCode_AdjudicationCodeCategory" FromRole="AdjudicationCode" ToRole="AdjudicationCodeCategory" />
-        </EntityType>
-        <EntityType Name="AdjudicationCodeCategory">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="AdjudicationCodes" Relationship="AO_20161201Model.FK_AdjudicationCode_AdjudicationCodeCategory" FromRole="AdjudicationCodeCategory" ToRole="AdjudicationCode" />
-        </EntityType>
-        <EntityType Name="Degree">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="NameLongForm" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Programs" Relationship="AO_20161201Model.FK_Program_Degree" FromRole="Degree" ToRole="Program" />
-        </EntityType>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="EmailAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Role" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Dept" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Location" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Extension" Type="Double" />
-          <NavigationProperty Name="Programs" Relationship="AO_20161201Model.CurriculumManagementProgram" FromRole="Employee" ToRole="Program" />
-          <NavigationProperty Name="Programs1" Relationship="AO_20161201Model.ProgramAssignment" FromRole="Employee" ToRole="Program" />
-        </EntityType>
-        <EntityType Name="Faculty">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Programs" Relationship="AO_20161201Model.FK_Program_Faculty" FromRole="Faculty" ToRole="Program" />
-        </EntityType>
-        <EntityType Name="Program">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="FullTime" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="PartTime" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="DirectEntry" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="AdvancedStanding" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="FacultyId" Type="Int32" />
-          <Property Name="DegreeId" Type="Int32" />
-          <Property Name="RyersonCode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="RyersonPlan" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="OuacCode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Notes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Degree" Relationship="AO_20161201Model.FK_Program_Degree" FromRole="Program" ToRole="Degree" />
-          <NavigationProperty Name="Faculty" Relationship="AO_20161201Model.FK_Program_Faculty" FromRole="Program" ToRole="Faculty" />
-          <NavigationProperty Name="Employees" Relationship="AO_20161201Model.CurriculumManagementProgram" FromRole="Program" ToRole="Employee" />
-          <NavigationProperty Name="Employees1" Relationship="AO_20161201Model.ProgramAssignment" FromRole="Program" ToRole="Employee" />
-        </EntityType>
-        <EntityType Name="ReasonCode">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="ActionCodes" Relationship="AO_20161201Model.ActionReasonCode" FromRole="ReasonCode" ToRole="ActionCode" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <Association Name="FK_AdjudicationCode_AdjudicationCodeCategory">
-          <End Type="AO_20161201Model.AdjudicationCodeCategory" Role="AdjudicationCodeCategory" Multiplicity="0..1" />
-          <End Type="AO_20161201Model.AdjudicationCode" Role="AdjudicationCode" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AdjudicationCodeCategory">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AdjudicationCode">
-              <PropertyRef Name="AdjudicationCodeCategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Program_Degree">
-          <End Type="AO_20161201Model.Degree" Role="Degree" Multiplicity="0..1" />
-          <End Type="AO_20161201Model.Program" Role="Program" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Degree">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Program">
-              <PropertyRef Name="DegreeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Program_Faculty">
-          <End Type="AO_20161201Model.Faculty" Role="Faculty" Multiplicity="0..1" />
-          <End Type="AO_20161201Model.Program" Role="Program" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Faculty">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Program">
-              <PropertyRef Name="FacultyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="ActionReasonCode">
-          <End Type="AO_20161201Model.ActionCode" Role="ActionCode" Multiplicity="*" />
-          <End Type="AO_20161201Model.ReasonCode" Role="ReasonCode" Multiplicity="*" />
-        </Association>
-        <Association Name="CurriculumManagementProgram">
-          <End Type="AO_20161201Model.Program" Role="Program" Multiplicity="*" />
-          <End Type="AO_20161201Model.Employee" Role="Employee" Multiplicity="*" />
-        </Association>
-        <Association Name="ProgramAssignment">
-          <End Type="AO_20161201Model.Employee" Role="Employee" Multiplicity="*" />
-          <End Type="AO_20161201Model.Program" Role="Program" Multiplicity="*" />
-        </Association>
         <EntityType Name="GlossaryMessage">
           <Key>
             <PropertyRef Name="Id" />
@@ -649,6 +248,9 @@
           <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="GlossaryMessageTypeCategory" Relationship="AO_20161201Model.FK_GlossaryMessage_GlossaryMessageTypeCategory" FromRole="GlossaryMessage" ToRole="GlossaryMessageTypeCategory" />
+          <Property Name="ReplacedBy_GlossaryMessageId" Type="Guid" />
+          <NavigationProperty Name="GlossaryMessage1" Relationship="AO_20161201Model.FK_GlossaryMessage_GlossaryMessage" FromRole="GlossaryMessage" ToRole="GlossaryMessage1" />
+          <NavigationProperty Name="GlossaryMessage2" Relationship="AO_20161201Model.FK_GlossaryMessage_GlossaryMessage" FromRole="GlossaryMessage1" ToRole="GlossaryMessage" />
         </EntityType>
         <EntityType Name="GlossaryMessageType">
           <Key>
@@ -700,6 +302,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="GlossaryMessageView">
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="CatName" />
+            <PropertyRef Name="Code" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="IsBulletPoint" />
+            <PropertyRef Name="Enabled" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CatName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CatDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsBulletPoint" Type="Boolean" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_GlossaryMessage_GlossaryMessage">
+          <End Type="AO_20161201Model.GlossaryMessage" Role="GlossaryMessage" Multiplicity="0..1" />
+          <End Type="AO_20161201Model.GlossaryMessage" Role="GlossaryMessage1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlossaryMessage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GlossaryMessage1">
+              <PropertyRef Name="ReplacedBy_GlossaryMessageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -730,138 +362,10 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="AO_20161201Model.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="AO_20161201Model.Store.sp_upgraddiagrams" />
-          <EntitySetMapping Name="ActionCodes">
-            <EntityTypeMapping TypeName="AO_20161201Model.ActionCode">
-              <MappingFragment StoreEntitySet="ActionCode">
-                <ScalarProperty Name="Modified" ColumnName="Modified" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AdjudicationCodes">
-            <EntityTypeMapping TypeName="AO_20161201Model.AdjudicationCode">
-              <MappingFragment StoreEntitySet="AdjudicationCode">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="AdjudicationCodeCategoryId" ColumnName="AdjudicationCodeCategoryId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AdjudicationCodeCategories">
-            <EntityTypeMapping TypeName="AO_20161201Model.AdjudicationCodeCategory">
-              <MappingFragment StoreEntitySet="AdjudicationCodeCategory">
-                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-                <ScalarProperty Name="Modified" ColumnName="Modified" />
-                <ScalarProperty Name="Created" ColumnName="Created" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Degrees">
-            <EntityTypeMapping TypeName="AO_20161201Model.Degree">
-              <MappingFragment StoreEntitySet="Degree">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="NameLongForm" ColumnName="NameLongForm" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="AO_20161201Model.Employee">
-              <MappingFragment StoreEntitySet="Employee">
-                <ScalarProperty Name="Extension" ColumnName="Extension" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="Dept" ColumnName="Dept" />
-                <ScalarProperty Name="Role" ColumnName="Role" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Faculties">
-            <EntityTypeMapping TypeName="AO_20161201Model.Faculty">
-              <MappingFragment StoreEntitySet="Faculty">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Programs">
-            <EntityTypeMapping TypeName="AO_20161201Model.Program">
-              <MappingFragment StoreEntitySet="Program">
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="OuacCode" ColumnName="OuacCode" />
-                <ScalarProperty Name="RyersonPlan" ColumnName="RyersonPlan" />
-                <ScalarProperty Name="RyersonCode" ColumnName="RyersonCode" />
-                <ScalarProperty Name="DegreeId" ColumnName="DegreeId" />
-                <ScalarProperty Name="FacultyId" ColumnName="FacultyId" />
-                <ScalarProperty Name="AdvancedStanding" ColumnName="AdvancedStanding" />
-                <ScalarProperty Name="DirectEntry" ColumnName="DirectEntry" />
-                <ScalarProperty Name="PartTime" ColumnName="PartTime" />
-                <ScalarProperty Name="FullTime" ColumnName="FullTime" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ReasonCodes">
-            <EntityTypeMapping TypeName="AO_20161201Model.ReasonCode">
-              <MappingFragment StoreEntitySet="ReasonCode">
-                <ScalarProperty Name="Modified" ColumnName="Modified" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="AO_20161201Model.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="ActionReasonCode" TypeName="AO_20161201Model.ActionReasonCode" StoreEntitySet="ActionReasonCode">
-            <EndProperty Name="ReasonCode">
-              <ScalarProperty Name="Id" ColumnName="ReasonCodeId" />
-            </EndProperty>
-            <EndProperty Name="ActionCode">
-              <ScalarProperty Name="Id" ColumnName="ActionCodeId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="CurriculumManagementProgram" TypeName="AO_20161201Model.CurriculumManagementProgram" StoreEntitySet="CurriculumManagementProgram">
-            <EndProperty Name="Employee">
-              <ScalarProperty Name="Id" ColumnName="EmployeeId_AO" />
-            </EndProperty>
-            <EndProperty Name="Program">
-              <ScalarProperty Name="Id" ColumnName="ProgramId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="ProgramAssignment" TypeName="AO_20161201Model.ProgramAssignment" StoreEntitySet="ProgramAssignment">
-            <EndProperty Name="Program">
-              <ScalarProperty Name="Id" ColumnName="ProgramId" />
-            </EndProperty>
-            <EndProperty Name="Employee">
-              <ScalarProperty Name="Id" ColumnName="EmployeeId_AO" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="GlossaryMessages">
             <EntityTypeMapping TypeName="AO_20161201Model.GlossaryMessage">
               <MappingFragment StoreEntitySet="GlossaryMessage">
+                <ScalarProperty Name="ReplacedBy_GlossaryMessageId" ColumnName="ReplacedBy_GlossaryMessageId" />
                 <ScalarProperty Name="Modified" ColumnName="Modified" />
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />
@@ -897,6 +401,20 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="GlossaryMessageTypeId" ColumnName="GlossaryMessageTypeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GlossaryMessageViews">
+            <EntityTypeMapping TypeName="AO_20161201Model.GlossaryMessageView">
+              <MappingFragment StoreEntitySet="GlossaryMessageView">
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="IsBulletPoint" ColumnName="IsBulletPoint" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CatDesc" ColumnName="CatDesc" />
+                <ScalarProperty Name="CatName" ColumnName="CatName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

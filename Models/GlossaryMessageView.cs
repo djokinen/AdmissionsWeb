@@ -12,19 +12,15 @@ namespace AdmissionsWeb.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Faculty
+    public partial class GlossaryMessageView
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Faculty()
-        {
-            this.Programs = new HashSet<Program>();
-        }
-    
-        public int Id { get; set; }
         public string Name { get; set; }
+        public string CatName { get; set; }
+        public string CatDesc { get; set; }
+        public string Code { get; set; }
         public string Description { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Program> Programs { get; set; }
+        public string Text { get; set; }
+        public bool IsBulletPoint { get; set; }
+        public bool Enabled { get; set; }
     }
 }

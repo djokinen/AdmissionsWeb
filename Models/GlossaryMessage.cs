@@ -14,6 +14,12 @@ namespace AdmissionsWeb.Models
     
     public partial class GlossaryMessage
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public GlossaryMessage()
+        {
+            this.GlossaryMessage1 = new HashSet<GlossaryMessage>();
+        }
+    
         public System.Guid Id { get; set; }
         public System.Guid GlossaryMessageTypeCategoryId { get; set; }
         public string Code { get; set; }
@@ -24,7 +30,11 @@ namespace AdmissionsWeb.Models
         public bool Enabled { get; set; }
         public System.DateTime Created { get; set; }
         public System.DateTime Modified { get; set; }
+        public Nullable<System.Guid> ReplacedBy_GlossaryMessageId { get; set; }
     
         public virtual GlossaryMessageTypeCategory GlossaryMessageTypeCategory { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GlossaryMessage> GlossaryMessage1 { get; set; }
+        public virtual GlossaryMessage GlossaryMessage2 { get; set; }
     }
 }

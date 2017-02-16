@@ -209,26 +209,16 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ActionCodesController.cs" />
     <Compile Include="Controllers\GlossaryMessagesController.cs" />
     <Compile Include="Controllers\GlossaryMessageTypeCategoriesController.cs" />
     <Compile Include="Controllers\GlossaryMessageTypesController.cs" />
+    <Compile Include="Controllers\GlossaryMessageViewsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\ReasonCodesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ActionCode.cs">
-      <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AdjudicationCode.cs">
-      <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AdjudicationCodeCategory.cs">
-      <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\AdmissionsEntityModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -244,15 +234,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AdmissionsEntityModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Degree.cs">
-      <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Employee.cs">
-      <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Faculty.cs">
-      <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\GlossaryMessage.cs">
       <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
     </Compile>
@@ -262,21 +243,15 @@
     <Compile Include="Models\GlossaryMessageTypeCategory.cs">
       <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GlossaryMessageView.cs">
+      <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Program.cs">
-      <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ReasonCode.cs">
-      <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -529,6 +504,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\api\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

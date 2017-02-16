@@ -27,18 +27,10 @@ namespace AdmissionsWeb.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<ActionCode> ActionCodes { get; set; }
-        public virtual DbSet<AdjudicationCode> AdjudicationCodes { get; set; }
-        public virtual DbSet<AdjudicationCodeCategory> AdjudicationCodeCategories { get; set; }
-        public virtual DbSet<Degree> Degrees { get; set; }
-        public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<Faculty> Faculties { get; set; }
-        public virtual DbSet<Program> Programs { get; set; }
-        public virtual DbSet<ReasonCode> ReasonCodes { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<GlossaryMessage> GlossaryMessages { get; set; }
         public virtual DbSet<GlossaryMessageType> GlossaryMessageTypes { get; set; }
         public virtual DbSet<GlossaryMessageTypeCategory> GlossaryMessageTypeCategories { get; set; }
+        public virtual DbSet<GlossaryMessageView> GlossaryMessageViews { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

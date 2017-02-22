@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AdmissionsWeb.Models;
@@ -22,11 +23,19 @@ namespace AdmissionsWeb.Controllers
             return db.GlossaryMessageViews;
         }
 
-        // GET: api/GlossaryMessageViews/5
-        [ResponseType(typeof(GlossaryMessageView))]
-        public IHttpActionResult GetGlossaryMessageView(string id)
+		// GET: api/GlossaryMessageViews/5
+		public IQueryable<GlossaryMessageView> GetGlossaryMessageViews(string codes)
+		{
+			return (from n in db.GlossaryMessageViews
+					  where codes.Contains(n.Code)
+					  select n);
+		}
+
+		// GET: api/GlossaryMessageViews/5
+		[ResponseType(typeof(GlossaryMessageView))]
+        public async Task<IHttpActionResult> GetGlossaryMessageView(string id)
         {
-            GlossaryMessageView glossaryMessageView = db.GlossaryMessageViews.Find(id);
+            GlossaryMessageView glossaryMessageView = await db.GlossaryMessageViews.FindAsync(id);
             if (glossaryMessageView == null)
             {
                 return NotFound();
@@ -37,14 +46,14 @@ namespace AdmissionsWeb.Controllers
 
         // PUT: api/GlossaryMessageViews/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutGlossaryMessageView(string id, GlossaryMessageView glossaryMessageView)
+        public async Task<IHttpActionResult> PutGlossaryMessageView(Guid id, GlossaryMessageView glossaryMessageView)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != glossaryMessageView.Name)
+            if (id != glossaryMessageView.Id)
             {
                 return BadRequest();
             }
@@ -53,7 +62,7 @@ namespace AdmissionsWeb.Controllers
 
             try
             {
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -72,7 +81,7 @@ namespace AdmissionsWeb.Controllers
 
         // POST: api/GlossaryMessageViews
         [ResponseType(typeof(GlossaryMessageView))]
-        public IHttpActionResult PostGlossaryMessageView(GlossaryMessageView glossaryMessageView)
+        public async Task<IHttpActionResult> PostGlossaryMessageView(GlossaryMessageView glossaryMessageView)
         {
             if (!ModelState.IsValid)
             {
@@ -83,11 +92,11 @@ namespace AdmissionsWeb.Controllers
 
             try
             {
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (GlossaryMessageViewExists(glossaryMessageView.Name))
+                if (GlossaryMessageViewExists(glossaryMessageView.Id))
                 {
                     return Conflict();
                 }
@@ -97,21 +106,21 @@ namespace AdmissionsWeb.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = glossaryMessageView.Name }, glossaryMessageView);
+            return CreatedAtRoute("DefaultApi", new { id = glossaryMessageView.Id }, glossaryMessageView);
         }
 
         // DELETE: api/GlossaryMessageViews/5
         [ResponseType(typeof(GlossaryMessageView))]
-        public IHttpActionResult DeleteGlossaryMessageView(string id)
+        public async Task<IHttpActionResult> DeleteGlossaryMessageView(Guid id)
         {
-            GlossaryMessageView glossaryMessageView = db.GlossaryMessageViews.Find(id);
+            GlossaryMessageView glossaryMessageView = await db.GlossaryMessageViews.FindAsync(id);
             if (glossaryMessageView == null)
             {
                 return NotFound();
             }
 
             db.GlossaryMessageViews.Remove(glossaryMessageView);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return Ok(glossaryMessageView);
         }
@@ -125,9 +134,9 @@ namespace AdmissionsWeb.Controllers
             base.Dispose(disposing);
         }
 
-        private bool GlossaryMessageViewExists(string id)
+        private bool GlossaryMessageViewExists(Guid id)
         {
-            return db.GlossaryMessageViews.Count(e => e.Name == id) > 0;
+            return db.GlossaryMessageViews.Count(e => e.Id == id) > 0;
         }
     }
 }

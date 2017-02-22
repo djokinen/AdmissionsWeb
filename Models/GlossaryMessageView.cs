@@ -14,10 +14,15 @@ namespace AdmissionsWeb.Models
     
     public partial class GlossaryMessageView
     {
-        public string Name { get; set; }
-        public string CatName { get; set; }
-        public string CatDesc { get; set; }
+        public System.Guid Id { get; set; }
+        public System.Guid GlossaryMessageTypeId { get; set; }
+        public System.Guid GlossaryMessageTypeCategoryId { get; set; }
+        public string GlossaryMessageTypeName { get; set; }
+        public string GlossaryMessageTypeDescription { get; set; }
+        public string GlossaryMessageTypeCategoryName { get; set; }
+        public string GlossaryMessageTypeCategoryDescription { get; set; }
         public string Code { get; set; }
+        public string Note { get; set; }
         public string Description { get; set; }
         public string Text { get; set; }
         public bool IsBulletPoint { get; set; }

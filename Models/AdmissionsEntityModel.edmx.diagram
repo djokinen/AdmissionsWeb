@@ -5,13 +5,13 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="40b63fcecef949dfb3c1563f47366b0d" Name="Diagram1" ZoomLevel="81">
-        <EntityTypeShape EntityType="AO_20161201Model.GlossaryMessage" Width="1.5" PointX="11.875" PointY="6" />
-        <EntityTypeShape EntityType="AO_20161201Model.GlossaryMessageType" Width="1.5" PointX="7.375" PointY="6.375" />
-        <EntityTypeShape EntityType="AO_20161201Model.GlossaryMessageTypeCategory" Width="1.5" PointX="9.625" PointY="6.125" />
+        <EntityTypeShape EntityType="AO_20161201Model.GlossaryMessage" Width="1.5" PointX="8.625" PointY="0.875" />
+        <EntityTypeShape EntityType="AO_20161201Model.GlossaryMessageType" Width="1.5" PointX="4.125" PointY="1.25" />
+        <EntityTypeShape EntityType="AO_20161201Model.GlossaryMessageTypeCategory" Width="1.5" PointX="6.375" PointY="1" />
         <AssociationConnector Association="AO_20161201Model.FK_GlossaryMessage_GlossaryMessageTypeCategory" />
         <AssociationConnector Association="AO_20161201Model.FK_GlossaryMessageTypeCategory_GlossaryMessageType" />
-        <EntityTypeShape EntityType="AO_20161201Model.GlossaryMessageView" Width="1.5" PointX="5.125" PointY="6.5" />
         <AssociationConnector Association="AO_20161201Model.FK_GlossaryMessage_GlossaryMessage" />
+        <EntityTypeShape EntityType="AO_20161201Model.GlossaryMessageView" Width="3" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -13,130 +13,131 @@ using AdmissionsWeb.Models;
 
 namespace AdmissionsWeb.Controllers
 {
-    public class GlossaryMessageViewsController : ApiController
-    {
-        private AO_Entities db = new AO_Entities();
+	public class GlossaryMessageViewsController : ApiController
+	{
+		private AO_Entities db = new AO_Entities();
 
-        // GET: api/GlossaryMessageViews
-        public IQueryable<GlossaryMessageView> GetGlossaryMessageViews()
-        {
-            return db.GlossaryMessageViews;
-        }
-
-		// GET: api/GlossaryMessageViews/5
-		public IQueryable<GlossaryMessageView> GetGlossaryMessageViews(string codes)
+		// GET: api/GlossaryMessageViews?ids=x868,x761
+		public IQueryable<GlossaryMessageView> GetGlossaryMessageViews(string ids)
 		{
 			return (from n in db.GlossaryMessageViews
-					  where codes.Contains(n.Code)
+					  where ids.Contains(n.Id)
+					  orderby n.IsBulletPoint descending
 					  select n);
+		}
+
+		// GET: api/GlossaryMessageViews
+		public IQueryable<GlossaryMessageView> GetGlossaryMessageViews()
+		{
+			return db.GlossaryMessageViews;
 		}
 
 		// GET: api/GlossaryMessageViews/5
 		[ResponseType(typeof(GlossaryMessageView))]
-        public async Task<IHttpActionResult> GetGlossaryMessageView(string id)
-        {
-            GlossaryMessageView glossaryMessageView = await db.GlossaryMessageViews.FindAsync(id);
-            if (glossaryMessageView == null)
-            {
-                return NotFound();
-            }
+		public async Task<IHttpActionResult> GetGlossaryMessageView(string id)
+		{
+			GlossaryMessageView glossaryMessageView = await db.GlossaryMessageViews.FindAsync(id);
+			if (glossaryMessageView == null)
+			{
+				return NotFound();
+			}
 
-            return Ok(glossaryMessageView);
-        }
+			return Ok(glossaryMessageView);
+		}
 
-        // PUT: api/GlossaryMessageViews/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutGlossaryMessageView(Guid id, GlossaryMessageView glossaryMessageView)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+		// PUT: api/GlossaryMessageViews/5
+		[ResponseType(typeof(void))]
+		public async Task<IHttpActionResult> PutGlossaryMessageView(string id, GlossaryMessageView glossaryMessageView)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
 
-            if (id != glossaryMessageView.Id)
-            {
-                return BadRequest();
-            }
+			if (id != glossaryMessageView.Name)
+			{
+				return BadRequest();
+			}
 
-            db.Entry(glossaryMessageView).State = EntityState.Modified;
+			db.Entry(glossaryMessageView).State = EntityState.Modified;
 
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!GlossaryMessageViewExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+			try
+			{
+				await db.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!GlossaryMessageViewExists(id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }
+			return StatusCode(HttpStatusCode.NoContent);
+		}
 
-        // POST: api/GlossaryMessageViews
-        [ResponseType(typeof(GlossaryMessageView))]
-        public async Task<IHttpActionResult> PostGlossaryMessageView(GlossaryMessageView glossaryMessageView)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+		// POST: api/GlossaryMessageViews
+		[ResponseType(typeof(GlossaryMessageView))]
+		public async Task<IHttpActionResult> PostGlossaryMessageView(GlossaryMessageView glossaryMessageView)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
 
-            db.GlossaryMessageViews.Add(glossaryMessageView);
+			db.GlossaryMessageViews.Add(glossaryMessageView);
 
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (GlossaryMessageViewExists(glossaryMessageView.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+			try
+			{
+				await db.SaveChangesAsync();
+			}
+			catch (DbUpdateException)
+			{
+				if (GlossaryMessageViewExists(glossaryMessageView.Name))
+				{
+					return Conflict();
+				}
+				else
+				{
+					throw;
+				}
+			}
 
-            return CreatedAtRoute("DefaultApi", new { id = glossaryMessageView.Id }, glossaryMessageView);
-        }
+			return CreatedAtRoute("DefaultApi", new { id = glossaryMessageView.Name }, glossaryMessageView);
+		}
 
-        // DELETE: api/GlossaryMessageViews/5
-        [ResponseType(typeof(GlossaryMessageView))]
-        public async Task<IHttpActionResult> DeleteGlossaryMessageView(Guid id)
-        {
-            GlossaryMessageView glossaryMessageView = await db.GlossaryMessageViews.FindAsync(id);
-            if (glossaryMessageView == null)
-            {
-                return NotFound();
-            }
+		// DELETE: api/GlossaryMessageViews/5
+		[ResponseType(typeof(GlossaryMessageView))]
+		public async Task<IHttpActionResult> DeleteGlossaryMessageView(string id)
+		{
+			GlossaryMessageView glossaryMessageView = await db.GlossaryMessageViews.FindAsync(id);
+			if (glossaryMessageView == null)
+			{
+				return NotFound();
+			}
 
-            db.GlossaryMessageViews.Remove(glossaryMessageView);
-            await db.SaveChangesAsync();
+			db.GlossaryMessageViews.Remove(glossaryMessageView);
+			await db.SaveChangesAsync();
 
-            return Ok(glossaryMessageView);
-        }
+			return Ok(glossaryMessageView);
+		}
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				db.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 
-        private bool GlossaryMessageViewExists(Guid id)
-        {
-            return db.GlossaryMessageViews.Count(e => e.Id == id) > 0;
-        }
-    }
+		private bool GlossaryMessageViewExists(string id)
+		{
+			return db.GlossaryMessageViews.Count(e => e.Name == id) > 0;
+		}
+	}
 }

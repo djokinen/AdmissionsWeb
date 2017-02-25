@@ -9,9 +9,8 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="GlossaryMessageTypeCategoryId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Note" Type="varchar" MaxLength="255" />
           <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Text" Type="varchar(max)" />
@@ -48,34 +47,22 @@
 warning 6002: The table/view 'AdmissionsDB.dbo.GlossaryMessageView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="GlossaryMessageView">
           <Key>
-            <PropertyRef Name="Code" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="CatName" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="IsBulletPoint" />
+            <PropertyRef Name="Enabled" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="GlossaryMessageTypeId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="GlossaryMessageTypeCategoryId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="GlossaryMessageTypeName" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="GlossaryMessageTypeDescription" Type="nvarchar(max)" />
-          <Property Name="GlossaryMessageTypeCategoryName" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="GlossaryMessageTypeCategoryDescription" Type="nvarchar(max)" />
-          <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Note" Type="varchar" MaxLength="255" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CatName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CatDesc" Type="nvarchar(max)" />
+          <Property Name="Id" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Text" Type="varchar(max)" />
           <Property Name="IsBulletPoint" Type="bit" Nullable="false" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
         </EntityType>
-        <Association Name="FK_GlossaryMessage_GlossaryMessage">
-          <End Role="GlossaryMessage" Type="Self.GlossaryMessage" Multiplicity="0..1" />
-          <End Role="GlossaryMessage1" Type="Self.GlossaryMessage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GlossaryMessage">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GlossaryMessage1">
-              <PropertyRef Name="ReplacedBy_GlossaryMessageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_GlossaryMessage_GlossaryMessageTypeCategory">
           <End Role="GlossaryMessageTypeCategory" Type="Self.GlossaryMessageTypeCategory" Multiplicity="1" />
           <End Role="GlossaryMessage" Type="Self.GlossaryMessage" Multiplicity="*" />
@@ -137,25 +124,16 @@ warning 6002: The table/view 'AdmissionsDB.dbo.GlossaryMessageView' does not hav
           <EntitySet Name="GlossaryMessageTypeCategory" EntityType="Self.GlossaryMessageTypeCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GlossaryMessageView" EntityType="Self.GlossaryMessageView" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [GlossaryMessageView].[Name] AS [Name], 
+    [GlossaryMessageView].[CatName] AS [CatName], 
+    [GlossaryMessageView].[CatDesc] AS [CatDesc], 
     [GlossaryMessageView].[Id] AS [Id], 
-    [GlossaryMessageView].[GlossaryMessageTypeId] AS [GlossaryMessageTypeId], 
-    [GlossaryMessageView].[GlossaryMessageTypeCategoryId] AS [GlossaryMessageTypeCategoryId], 
-    [GlossaryMessageView].[GlossaryMessageTypeName] AS [GlossaryMessageTypeName], 
-    [GlossaryMessageView].[GlossaryMessageTypeDescription] AS [GlossaryMessageTypeDescription], 
-    [GlossaryMessageView].[GlossaryMessageTypeCategoryName] AS [GlossaryMessageTypeCategoryName], 
-    [GlossaryMessageView].[GlossaryMessageTypeCategoryDescription] AS [GlossaryMessageTypeCategoryDescription], 
-    [GlossaryMessageView].[Code] AS [Code], 
-    [GlossaryMessageView].[Note] AS [Note], 
     [GlossaryMessageView].[Description] AS [Description], 
     [GlossaryMessageView].[Text] AS [Text], 
     [GlossaryMessageView].[IsBulletPoint] AS [IsBulletPoint], 
     [GlossaryMessageView].[Enabled] AS [Enabled]
     FROM [dbo].[GlossaryMessageView] AS [GlossaryMessageView]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK_GlossaryMessage_GlossaryMessage" Association="Self.FK_GlossaryMessage_GlossaryMessage">
-            <End Role="GlossaryMessage" EntitySet="GlossaryMessage" />
-            <End Role="GlossaryMessage1" EntitySet="GlossaryMessage" />
-          </AssociationSet>
           <AssociationSet Name="FK_GlossaryMessage_GlossaryMessageTypeCategory" Association="Self.FK_GlossaryMessage_GlossaryMessageTypeCategory">
             <End Role="GlossaryMessageTypeCategory" EntitySet="GlossaryMessageTypeCategory" />
             <End Role="GlossaryMessage" EntitySet="GlossaryMessage" />
@@ -200,22 +178,18 @@ warning 6002: The table/view 'AdmissionsDB.dbo.GlossaryMessageView' does not hav
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <EntitySet Name="GlossaryMessages" EntityType="AO_20161201Model.GlossaryMessage" />
           <EntitySet Name="GlossaryMessageTypes" EntityType="AO_20161201Model.GlossaryMessageType" />
           <EntitySet Name="GlossaryMessageTypeCategories" EntityType="AO_20161201Model.GlossaryMessageTypeCategory" />
-          <AssociationSet Name="FK_GlossaryMessage_GlossaryMessageTypeCategory" Association="AO_20161201Model.FK_GlossaryMessage_GlossaryMessageTypeCategory">
-            <End Role="GlossaryMessageTypeCategory" EntitySet="GlossaryMessageTypeCategories" />
-            <End Role="GlossaryMessage" EntitySet="GlossaryMessages" />
-          </AssociationSet>
           <AssociationSet Name="FK_GlossaryMessageTypeCategory_GlossaryMessageType" Association="AO_20161201Model.FK_GlossaryMessageTypeCategory_GlossaryMessageType">
             <End Role="GlossaryMessageType" EntitySet="GlossaryMessageTypes" />
             <End Role="GlossaryMessageTypeCategory" EntitySet="GlossaryMessageTypeCategories" />
           </AssociationSet>
-          <AssociationSet Name="FK_GlossaryMessage_GlossaryMessage" Association="AO_20161201Model.FK_GlossaryMessage_GlossaryMessage">
-            <End Role="GlossaryMessage" EntitySet="GlossaryMessages" />
-            <End Role="GlossaryMessage1" EntitySet="GlossaryMessages" />
-          </AssociationSet>
           <EntitySet Name="GlossaryMessageViews" EntityType="AO_20161201Model.GlossaryMessageView" />
+          <EntitySet Name="GlossaryMessages" EntityType="AO_20161201Model.GlossaryMessage" />
+          <AssociationSet Name="FK_GlossaryMessage_GlossaryMessageTypeCategory" Association="AO_20161201Model.FK_GlossaryMessage_GlossaryMessageTypeCategory">
+            <End Role="GlossaryMessageTypeCategory" EntitySet="GlossaryMessageTypeCategories" />
+            <End Role="GlossaryMessage" EntitySet="GlossaryMessages" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -228,25 +202,6 @@ warning 6002: The table/view 'AdmissionsDB.dbo.GlossaryMessageView' does not hav
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
-        <EntityType Name="GlossaryMessage">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="GlossaryMessageTypeCategoryId" Type="Guid" Nullable="false" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Note" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IsBulletPoint" Type="Boolean" Nullable="false" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" />
-          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="GlossaryMessageTypeCategory" Relationship="AO_20161201Model.FK_GlossaryMessage_GlossaryMessageTypeCategory" FromRole="GlossaryMessage" ToRole="GlossaryMessageTypeCategory" />
-          <Property Name="ReplacedBy_GlossaryMessageId" Type="Guid" />
-          <NavigationProperty Name="GlossaryMessage1" Relationship="AO_20161201Model.FK_GlossaryMessage_GlossaryMessage" FromRole="GlossaryMessage" ToRole="GlossaryMessage1" />
-          <NavigationProperty Name="GlossaryMessage2" Relationship="AO_20161201Model.FK_GlossaryMessage_GlossaryMessage" FromRole="GlossaryMessage1" ToRole="GlossaryMessage" />
-        </EntityType>
         <EntityType Name="GlossaryMessageType">
           <Key>
             <PropertyRef Name="Id" />
@@ -270,8 +225,54 @@ warning 6002: The table/view 'AdmissionsDB.dbo.GlossaryMessageView' does not hav
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="GlossaryMessages" Relationship="AO_20161201Model.FK_GlossaryMessage_GlossaryMessageTypeCategory" FromRole="GlossaryMessageTypeCategory" ToRole="GlossaryMessage" />
           <NavigationProperty Name="GlossaryMessageType" Relationship="AO_20161201Model.FK_GlossaryMessageTypeCategory_GlossaryMessageType" FromRole="GlossaryMessageTypeCategory" ToRole="GlossaryMessageType" />
+          <NavigationProperty Name="GlossaryMessages" Relationship="AO_20161201Model.FK_GlossaryMessage_GlossaryMessageTypeCategory" FromRole="GlossaryMessageTypeCategory" ToRole="GlossaryMessage" />
+        </EntityType>
+        <Association Name="FK_GlossaryMessageTypeCategory_GlossaryMessageType">
+          <End Type="AO_20161201Model.GlossaryMessageType" Role="GlossaryMessageType" Multiplicity="1" />
+          <End Type="AO_20161201Model.GlossaryMessageTypeCategory" Role="GlossaryMessageTypeCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlossaryMessageType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GlossaryMessageTypeCategory">
+              <PropertyRef Name="GlossaryMessageTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GlossaryMessageView">
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="CatName" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="IsBulletPoint" />
+            <PropertyRef Name="Enabled" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CatName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CatDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsBulletPoint" Type="Boolean" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GlossaryMessage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="GlossaryMessageTypeCategoryId" Type="Guid" Nullable="false" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsBulletPoint" Type="Boolean" Nullable="false" />
+          <Property Name="ReplacedBy_GlossaryMessageId" Type="Guid" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="GlossaryMessageTypeCategory" Relationship="AO_20161201Model.FK_GlossaryMessage_GlossaryMessageTypeCategory" FromRole="GlossaryMessage" ToRole="GlossaryMessageTypeCategory" />
         </EntityType>
         <Association Name="FK_GlossaryMessage_GlossaryMessageTypeCategory">
           <End Type="AO_20161201Model.GlossaryMessageTypeCategory" Role="GlossaryMessageTypeCategory" Multiplicity="1" />
@@ -285,48 +286,6 @@ warning 6002: The table/view 'AdmissionsDB.dbo.GlossaryMessageView' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_GlossaryMessageTypeCategory_GlossaryMessageType">
-          <End Type="AO_20161201Model.GlossaryMessageType" Role="GlossaryMessageType" Multiplicity="1" />
-          <End Type="AO_20161201Model.GlossaryMessageTypeCategory" Role="GlossaryMessageTypeCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GlossaryMessageType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GlossaryMessageTypeCategory">
-              <PropertyRef Name="GlossaryMessageTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GlossaryMessage_GlossaryMessage">
-          <End Type="AO_20161201Model.GlossaryMessage" Role="GlossaryMessage" Multiplicity="0..1" />
-          <End Type="AO_20161201Model.GlossaryMessage" Role="GlossaryMessage1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GlossaryMessage">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GlossaryMessage1">
-              <PropertyRef Name="ReplacedBy_GlossaryMessageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="GlossaryMessageView">
-          <Key>
-            <PropertyRef Name="Code" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="GlossaryMessageTypeId" Type="Guid" Nullable="false" />
-          <Property Name="GlossaryMessageTypeCategoryId" Type="Guid" Nullable="false" />
-          <Property Name="GlossaryMessageTypeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="GlossaryMessageTypeDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="GlossaryMessageTypeCategoryName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="GlossaryMessageTypeCategoryDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Note" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IsBulletPoint" Type="Boolean" Nullable="false" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -357,23 +316,6 @@ warning 6002: The table/view 'AdmissionsDB.dbo.GlossaryMessageView' does not hav
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="AO_20161201Model.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="AO_20161201Model.Store.sp_upgraddiagrams" />
-          <EntitySetMapping Name="GlossaryMessages">
-            <EntityTypeMapping TypeName="AO_20161201Model.GlossaryMessage">
-              <MappingFragment StoreEntitySet="GlossaryMessage">
-                <ScalarProperty Name="ReplacedBy_GlossaryMessageId" ColumnName="ReplacedBy_GlossaryMessageId" />
-                <ScalarProperty Name="Modified" ColumnName="Modified" />
-                <ScalarProperty Name="Created" ColumnName="Created" />
-                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-                <ScalarProperty Name="IsBulletPoint" ColumnName="IsBulletPoint" />
-                <ScalarProperty Name="Text" ColumnName="Text" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="GlossaryMessageTypeCategoryId" ColumnName="GlossaryMessageTypeCategoryId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="GlossaryMessageTypes">
             <EntityTypeMapping TypeName="AO_20161201Model.GlossaryMessageType">
               <MappingFragment StoreEntitySet="GlossaryMessageType">
@@ -406,15 +348,26 @@ warning 6002: The table/view 'AdmissionsDB.dbo.GlossaryMessageView' does not hav
                 <ScalarProperty Name="IsBulletPoint" ColumnName="IsBulletPoint" />
                 <ScalarProperty Name="Text" ColumnName="Text" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="GlossaryMessageTypeCategoryDescription" ColumnName="GlossaryMessageTypeCategoryDescription" />
-                <ScalarProperty Name="GlossaryMessageTypeCategoryName" ColumnName="GlossaryMessageTypeCategoryName" />
-                <ScalarProperty Name="GlossaryMessageTypeDescription" ColumnName="GlossaryMessageTypeDescription" />
-                <ScalarProperty Name="GlossaryMessageTypeName" ColumnName="GlossaryMessageTypeName" />
-                <ScalarProperty Name="GlossaryMessageTypeCategoryId" ColumnName="GlossaryMessageTypeCategoryId" />
-                <ScalarProperty Name="GlossaryMessageTypeId" ColumnName="GlossaryMessageTypeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CatDesc" ColumnName="CatDesc" />
+                <ScalarProperty Name="CatName" ColumnName="CatName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GlossaryMessages">
+            <EntityTypeMapping TypeName="AO_20161201Model.GlossaryMessage">
+              <MappingFragment StoreEntitySet="GlossaryMessage">
+                <ScalarProperty Name="Modified" ColumnName="Modified" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="ReplacedBy_GlossaryMessageId" ColumnName="ReplacedBy_GlossaryMessageId" />
+                <ScalarProperty Name="IsBulletPoint" ColumnName="IsBulletPoint" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GlossaryMessageTypeCategoryId" ColumnName="GlossaryMessageTypeCategoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

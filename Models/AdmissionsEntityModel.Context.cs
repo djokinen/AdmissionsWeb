@@ -27,10 +27,10 @@ namespace AdmissionsWeb.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<GlossaryMessage> GlossaryMessages { get; set; }
         public virtual DbSet<GlossaryMessageType> GlossaryMessageTypes { get; set; }
         public virtual DbSet<GlossaryMessageTypeCategory> GlossaryMessageTypeCategories { get; set; }
         public virtual DbSet<GlossaryMessageView> GlossaryMessageViews { get; set; }
+        public virtual DbSet<GlossaryMessage> GlossaryMessages { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

@@ -54,7 +54,7 @@ namespace AdmissionsWeb.Controllers
 				return BadRequest(ModelState);
 			}
 
-			if (id != glossaryMessageView.Name)
+			if (id != glossaryMessageView.GlossaryMessageTypeName)
 			{
 				return BadRequest();
 			}
@@ -97,7 +97,7 @@ namespace AdmissionsWeb.Controllers
 			}
 			catch (DbUpdateException)
 			{
-				if (GlossaryMessageViewExists(glossaryMessageView.Name))
+				if (GlossaryMessageViewExists(glossaryMessageView.GlossaryMessageTypeName))
 				{
 					return Conflict();
 				}
@@ -107,7 +107,7 @@ namespace AdmissionsWeb.Controllers
 				}
 			}
 
-			return CreatedAtRoute("DefaultApi", new { id = glossaryMessageView.Name }, glossaryMessageView);
+			return CreatedAtRoute("DefaultApi", new { id = glossaryMessageView.GlossaryMessageTypeName }, glossaryMessageView);
 		}
 
 		// DELETE: api/GlossaryMessageViews/5
@@ -137,7 +137,7 @@ namespace AdmissionsWeb.Controllers
 
 		private bool GlossaryMessageViewExists(string id)
 		{
-			return db.GlossaryMessageViews.Count(e => e.Name == id) > 0;
+			return db.GlossaryMessageViews.Count(e => e.GlossaryMessageTypeName == id) > 0;
 		}
 	}
 }

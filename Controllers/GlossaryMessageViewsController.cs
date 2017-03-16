@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AdmissionsWeb.Models;
+using System.Web.Http.Cors;
 
 namespace AdmissionsWeb.Controllers
 {
+	[EnableCors(origins: "http://localhost:49471", headers: "*", methods: "*")]
 	public class GlossaryMessageViewsController : ApiController
 	{
 		private AO_Entities db = new AO_Entities();

@@ -14,7 +14,7 @@ using System.Web.Http.Cors;
 
 namespace AdmissionsWeb.Controllers
 {
-	[EnableCors(origins: "http://localhost:49471", headers: "*", methods: "*")]
+	[EnableCors(origins: "http://localhost:49471,http://localhost:50020", headers: "*", methods: "*")]
 	public class GlossaryMessageViewsController : ApiController
 	{
 		private AO_Entities db = new AO_Entities();

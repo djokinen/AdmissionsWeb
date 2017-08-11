@@ -217,6 +217,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GlossaryMessagesController.cs" />
     <Compile Include="Controllers\GlossaryMessageTypeCategoriesController.cs" />
     <Compile Include="Controllers\GlossaryMessageTypesController.cs" />
     <Compile Include="Controllers\GlossaryMessageViewsController.cs" />

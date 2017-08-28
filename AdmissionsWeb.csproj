@@ -217,6 +217,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Autoeval_progplanController.cs" />
     <Compile Include="Controllers\GlossaryMessagesController.cs" />
     <Compile Include="Controllers\GlossaryMessageTypeCategoriesController.cs" />
     <Compile Include="Controllers\GlossaryMessageTypesController.cs" />
@@ -225,6 +226,13 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="jagged.aspx.cs">
+      <DependentUpon>jagged.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="jagged.aspx.designer.cs">
+      <DependentUpon>jagged.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdmissionsEntityModel.Context.cs">
@@ -241,6 +249,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AdmissionsEntityModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Autoeval_progplan.cs">
+      <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GlossaryMessage.cs">
       <DependentUpon>AdmissionsEntityModel.tt</DependentUpon>
@@ -401,6 +412,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="jagged.aspx" />
     <Content Include="Models\AdmissionsEntityModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>AdmissionsEntityModel.edmx</DependentUpon>
@@ -509,6 +521,11 @@
     <Content Include="Views\GlossaryMessageTypeCategories\Details.cshtml" />
     <Content Include="Views\GlossaryMessageTypeCategories\Edit.cshtml" />
     <Content Include="Views\GlossaryMessageTypeCategories\Index.cshtml" />
+    <Content Include="Views\Autoeval_progplan\Create.cshtml" />
+    <Content Include="Views\Autoeval_progplan\Delete.cshtml" />
+    <Content Include="Views\Autoeval_progplan\Details.cshtml" />
+    <Content Include="Views\Autoeval_progplan\Edit.cshtml" />
+    <Content Include="Views\Autoeval_progplan\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

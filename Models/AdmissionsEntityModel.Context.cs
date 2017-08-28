@@ -31,6 +31,7 @@ namespace AdmissionsWeb.Models
         public virtual DbSet<GlossaryMessageTypeCategory> GlossaryMessageTypeCategories { get; set; }
         public virtual DbSet<GlossaryMessage> GlossaryMessages { get; set; }
         public virtual DbSet<GlossaryMessageView> GlossaryMessageViews { get; set; }
+        public virtual DbSet<Autoeval_progplan> Autoeval_progplan { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

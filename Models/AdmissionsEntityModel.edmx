@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="AO_20161201Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Autoeval_progplan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentID" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="ProgPlan" Type="varchar" MaxLength="16" Nullable="false" />
+        </EntityType>
         <EntityType Name="GlossaryMessage">
           <Key>
             <PropertyRef Name="Id" />
@@ -125,6 +133,7 @@ warning 6002: The table/view 'AdmissionsDB.dbo.GlossaryMessageView' does not hav
         </Function>
         <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="AO_20161201ModelStoreContainer">
+          <EntitySet Name="Autoeval_progplan" EntityType="Self.Autoeval_progplan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GlossaryMessage" EntityType="Self.GlossaryMessage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GlossaryMessageType" EntityType="Self.GlossaryMessageType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GlossaryMessageTypeCategory" EntityType="Self.GlossaryMessageTypeCategory" Schema="dbo" store:Type="Tables" />
@@ -200,6 +209,7 @@ warning 6002: The table/view 'AdmissionsDB.dbo.GlossaryMessageView' does not hav
             <End Role="GlossaryMessage" EntitySet="GlossaryMessages" />
           </AssociationSet>
           <EntitySet Name="GlossaryMessageViews" EntityType="AO_20161201Model.GlossaryMessageView" />
+          <EntitySet Name="Autoeval_progplan" EntityType="AO_20161201Model.Autoeval_progplan" />
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -302,6 +312,14 @@ warning 6002: The table/view 'AdmissionsDB.dbo.GlossaryMessageView' does not hav
           <Property Name="IsBulletPoint" Type="Boolean" Nullable="false" />
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
         </EntityType>
+        <EntityType Name="Autoeval_progplan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentID" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="ProgPlan" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -387,6 +405,15 @@ warning 6002: The table/view 'AdmissionsDB.dbo.GlossaryMessageView' does not hav
                 <ScalarProperty Name="GlossaryMessageTypeName" ColumnName="GlossaryMessageTypeName" />
                 <ScalarProperty Name="GlossaryMessageTypeCategoryId" ColumnName="GlossaryMessageTypeCategoryId" />
                 <ScalarProperty Name="GlossaryMessageTypeId" ColumnName="GlossaryMessageTypeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Autoeval_progplan">
+            <EntityTypeMapping TypeName="AO_20161201Model.Autoeval_progplan">
+              <MappingFragment StoreEntitySet="Autoeval_progplan">
+                <ScalarProperty Name="ProgPlan" ColumnName="ProgPlan" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
